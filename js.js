@@ -17,7 +17,7 @@ function playGame() {
 }
 
 function render() {
-	context.fillStyle = 'black';
+	context.fillStyle = '#030525';
 	context.fillRect(0,0,canvas.width, canvas.height);
 }
 
