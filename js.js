@@ -1,10 +1,25 @@
-/*var canvas = document.getElementById('myCanvas');
-var ctx = canvas.getContext("2d");
-ctx.fillText("hellooo",10,200);*/
-
 var canvas = document.createElement('canvas');
-var ctx = canvas.getContext("2d");
+var context = canvas.getContext("2d");
 canvas.height = 400;
 canvas.width = 600;
+mainImage = new Image();
+mainImage.ready = false;
+mainImage.onload = checkReady;
+mainImage.src = "pac.png";
+
+function checkReady() {
+		this.ready = true;
+		playGame();
+}
+
+function playGame() {
+	render();
+}
+
+function render() {
+	context.fillStyle = 'black';
+	context.fillRect(0,0,canvas.width, canvas.height);
+}
+
 document.body.appendChild(canvas);
 ctx.fillText("hellooo",10,200);
