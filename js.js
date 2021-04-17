@@ -17,8 +17,9 @@ function playGame() {
 }
 
 function render() {
-	context.fillStyle = '#030525';
+	context.fillStyle = '#050A50';
 	context.fillRect(0,0,canvas.width, canvas.height);
+	context.drawImage(mainImage,320,0,32,32,50,50,35,35);
 }
 
 document.body.appendChild(canvas);
