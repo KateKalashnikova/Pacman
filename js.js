@@ -6,6 +6,13 @@ var player = {
 	psize:32,
 	speed:5
 }
+
+var enemy = {
+	x:150,
+	y:200,
+	speed:5
+}
+
 var score = 0;
 var gscore = 0;
 
@@ -69,16 +76,20 @@ function checkReady() {
 
 function playGame() {
 	render();
+	requestAnimationFrame(playGame);
 }
 
 function render() {
 	context.fillStyle = '#050A50';
 	context.fillRect(0,0,canvas.width, canvas.height);
-	context.drawImage(mainImage,player.pacmouth,player.pacdir,32,32,player.x,player.y,32,32);
-	context.font = '20px Verdana';
+
+    context.font = '20px Verdana';
 	context.fillStyle = 'white';
 	context.fillText("Pacman: "+score+" vs Ghost:"+gscore,175,18);
+
+	context.drawImage(mainImage,0,0,32,32,enemy.x,enemy.y,32,32);
+	context.drawImage(mainImage,player.pacmouth,player.pacdir,32,32,player.x,player.y,32,32);
+	
 }
 
 document.body.appendChild(canvas);
-ctx.fillText("hellooo",10,200);
