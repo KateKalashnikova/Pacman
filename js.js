@@ -97,6 +97,12 @@ function render() {
 	context.fillStyle = '#13132C';
 	context.fillRect(0,0,canvas.width, canvas.height);
 
+	if(!powerdot.powerup){
+		powerdot.x = myNum(420)+30;
+		powerdot.y = myNum(250);
+		powerdot.powerup = true;
+	}
+
 	if(!ghost) {
 		enemy.ghostNum = myNum(5)*64;
 		enemy.x = myNum(450);
