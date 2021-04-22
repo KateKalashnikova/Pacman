@@ -10,7 +10,10 @@ var player = {
 var enemy = {
 	x:150,
 	y:200,
-	speed:5
+	speed:5,
+	moving:0,
+	dirx:0,
+	diry:0
 }
 
 var ghost = false;
@@ -85,7 +88,7 @@ function myNum(n) {
 }
 
 function render() {
-	context.fillStyle = '#050A50';
+	context.fillStyle = '#13132C';
 	context.fillRect(0,0,canvas.width, canvas.height);
 
 	if(!ghost) {
@@ -94,6 +97,34 @@ function render() {
 		enemy.y = myNum(250)+30;
 		ghost = true;
 	}
+	if(enemy.moving <0){
+		enemy.moving = (myNum(20)*3)+myNum(1);
+		enemy.speed = myNum(3.5)+1;
+		enemy.dirx = 0;
+		enemy.diry = 0;
+		if(enemy.moving % 2){
+			if(player.x < enemy.x){enemy.dirx = -enemy.speed;}else{enemy.dirx = enemy.speed;}
+		}else{
+			if(player.y < enemy.y){enemy.diry = -enemy.speed;}else{enemy.diry = enemy.speed;}
+		}
+	}
+
+	enemy.moving--;
+	enemy.x = enemy.x + enemy.dirx;
+	enemy.y = enemy.y + enemy.diry;
+
+	if(enemy.x >= (canvas.width-32)) {
+		enemy.x = 0;
+	}	
+	if(enemy.y >= (canvas.height-32)) {
+		enemy.y = 0;
+	}	
+	if(enemy.x < 0) {
+		enemy.x=(canvas.width-32);
+	}	
+	if(enemy.y < 0) {
+		enemy.y = (canvas.height-32);
+	}		
 
     context.font = '20px Verdana';
 	context.fillStyle = 'white';
