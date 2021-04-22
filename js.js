@@ -16,6 +16,12 @@ var enemy = {
 	diry:0
 }
 
+var powerdot = {
+	x:10,
+	y:10,
+	powerup: false	
+}
+
 var ghost = false;
 var score = 0, gscore = 0;
 
