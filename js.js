@@ -94,7 +94,7 @@ function myNum(n) {
 }
 
 function render() {
-	context.fillStyle = '#13132C';
+	context.fillStyle = 'black';
 	context.fillRect(0,0,canvas.width, canvas.height);
 
 	if(!powerdot.powerup){
@@ -111,7 +111,7 @@ function render() {
 	}
 	if(enemy.moving <0){
 		enemy.moving = (myNum(20)*3)+myNum(1);
-		enemy.speed = myNum(3.5)+1;
+		enemy.speed = myNum(3)+1;
 		enemy.dirx = 0;
 		enemy.diry = 0;
 		if(enemy.moving % 2){
@@ -138,9 +138,14 @@ function render() {
 		enemy.y = (canvas.height-32);
 	}		
 
+	if(powerdot.powerup){
+		context.fillStyle = '#FFA8A8';
+
+	}
+
     context.font = '20px Verdana';
 	context.fillStyle = 'white';
-	context.fillText("Pacman: "+score+" vs Ghost:"+gscore,175,18);
+	context.fillText("Pacman: "+score+" vs Ghost:"+gscore,175,25);
 
 	context.drawImage(mainImage,enemy.ghostNum,0,32,32,enemy.x,enemy.y,32,32);
 	context.drawImage(mainImage,player.pacmouth,player.pacdir,32,32,player.x,player.y,32,32);
