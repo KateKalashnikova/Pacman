@@ -140,7 +140,10 @@ function render() {
 
 	if(powerdot.powerup){
 		context.fillStyle = '#FFA8A8';
-
+		context.beginPath();
+		context.arc(powerdot.x, powerdot.y, 10,0, Math.PI * 2, true);
+		context.closePath();
+		context.fill();
 	}
 
     context.font = '20px Verdana';
