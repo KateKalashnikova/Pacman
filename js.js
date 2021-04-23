@@ -138,6 +138,11 @@ function render() {
 		enemy.y = (canvas.height-32);
 	}		
 
+	//Collision detection
+	if(player.x <= powerdot.x && powerdot.x <= (player.x + 32) && player.y <= powerdot.y && powerdot.y <= (player.y + 32)){
+		console.log('hit');
+	}
+
 	if(powerdot.powerup){
 		context.fillStyle = '#FFA8A8';
 		context.beginPath();
