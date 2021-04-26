@@ -19,7 +19,9 @@ var enemy = {
 var powerdot = {
 	x:10,
 	y:10,
-	powerup: false	
+	powerup: false, 
+	pcountdown:0,
+	ghostNum:0
 }
 
 var ghost = false;
@@ -141,6 +143,12 @@ function render() {
 	//Collision detection
 	if(player.x <= powerdot.x && powerdot.x <= (player.x + 32) && player.y <= powerdot.y && powerdot.y <= (player.y + 32)){
 		console.log('hit');
+		powerdot.powerup = false;
+		powerdot.pcountdown = 500;
+		powerdot.ghostNum = enemy.ghostNum;	
+		enemy.ghostNum = 384;
+		powerdot.x = 0;
+		powerdot.y = 0;
 	}
 
 	if(powerdot.powerup){
