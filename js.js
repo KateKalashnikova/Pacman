@@ -19,8 +19,8 @@ var enemy = {
 }
 
 var powerdot = {
-	x:10,
-	y:10,
+	x:15,
+	y:15,
 	powerup: false, 
 	pcountdown:0,
 	ghostNum:0
@@ -28,6 +28,7 @@ var powerdot = {
 
 var score = 0, 
 	gscore = 0;
+	countblink = 10;
 	ghost = false;
 
 
@@ -104,7 +105,7 @@ function render() {
 
 	if(!powerdot.powerup && powerdot.pcountdown < 5) {
 		powerdot.x = myNum(420)+30;
-		powerdot.y = myNum(250);
+		powerdot.y = myNum(250)+30;
 		powerdot.powerup = true;
 	}
 
@@ -188,12 +189,14 @@ function render() {
 		powerdot.x = 0;
 		powerdot.y = 0;
 		powerdot.ghosteat = true;
+		player.speed = 10;
 }
 	if (powerdot.ghosteat) {
 		powerdot.pcountdown--;
 	if (powerdot.pcountdown <= 0) {
 		powerdot.ghosteat = false;
 		enemy.ghostNum = powerdot.ghostNum;
+			player.speed = 5;
 	}
 }
 
@@ -214,6 +217,12 @@ function render() {
 		context.fill();
 	}
 
+	//enemy blinking
+	if(countblink>0) {
+		countblink --;
+	} else {
+		countblink = 20;
+	}
 	if(enemy.flash == 0){
 		enemy.flash = 32;
 	} else {
