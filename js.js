@@ -18,18 +18,31 @@ var enemy = {
 	ghosteat:false
 }
 
+var enemy2 = {
+	x:150,
+	y:200,
+	speed:5,
+	moving:0,
+	dirx:0,
+	diry:0,
+	flash:0,
+	ghosteat:false
+}
+
 var powerdot = {
 	x:15,
 	y:15,
 	powerup: false, 
 	pcountdown:0,
-	ghostNum:0
+	ghostNum:0,
+	ghostNum2:0
 }
 
 var score = 0, 
 	gscore = 0;
 	countblink = 10;
 	ghost = false;
+	ghost2 = false;
 
 
 var canvas = document.createElement('canvas');
@@ -115,15 +128,15 @@ function render() {
 		enemy.y = myNum(250)+30;
 		ghost = true;
 	}
-	if (!ghost) {
-		enemy.ghostNum = myNum(5) * 64;
-		enemy.x = myNum(450);
-		enemy.y = myNum(250) + 30;
-		ghost = true;
+	if (!ghost2) {
+		enemy2.ghostNum = myNum(5) * 64;
+		enemy2.x = myNum(450);
+		enemy2.y = myNum(250) + 30;
+		ghost2 = true;
 }
 	if (enemy.moving < 0) {
 		enemy.moving = (myNum(20) * 3) + myNum(1);
-		enemy.speed = myNum(3) + 1;
+		enemy.speed = myNum(2) + 1;
 		enemy.dirx = 0;
 		enemy.diry = 0;
 	if (powerdot.ghosteat) {
@@ -160,6 +173,45 @@ function render() {
 	if(enemy.y < 0) {
 		enemy.y = (canvas.height-32);
 	}		
+	//second enemy moving
+	if (enemy2.moving < 0) {
+		enemy2.moving = (myNum(20) * 3) + myNum(1);
+		enemy2.speed = myNum(2) + 1;
+		enemy2.dirx = 0;
+		enemy2.diry = 0;
+	if (powerdot.ghosteat) {
+		enemy2.speed = enemy2.speed * -1;
+	}
+	if (enemy2.moving % 2) {
+	if (player.x < enemy2.x) {
+		enemy2.dirx = -enemy2.speed;
+	} else {
+	enemy2.dirx = enemy2.speed;
+	}
+	} else {
+	if (player.y < enemy2.y) {
+		enemy2.diry = -enemy2.speed;
+	} else {
+		enemy2.diry = enemy2.speed;
+		}
+	}
+}
+	enemy2.moving--;
+	enemy2.x = enemy2.x + enemy2.dirx;
+	enemy2.y = enemy2.y + enemy2.diry;
+
+	if(enemy2.x >= (canvas.width-32)) {
+		enemy2.x = 0;
+	}	
+	if(enemy2.y >= (canvas.height-32)) {
+		enemy2.y = 0;
+	}	
+	if(enemy2.x < 0) {
+		enemy2.x=(canvas.width-32);
+	}	
+	if(enemy2.y < 0) {
+		enemy2.y = (canvas.height-32);
+	}	
 
 	//Collision detection ghost
 	if (player.x <= (enemy.x + 26) && enemy.x <= (player.x + 26) && player.y <= (enemy.y + 26)
@@ -177,19 +229,35 @@ function render() {
 		powerdot.pcountdown = 0;
 	}
 
+	if (player.x <= (enemy2.x + 26) && enemy2.x <= (player.x + 26) && player.y <= (enemy2.y + 26)
+		&& enemy2.y <= (player.y + 32)) {
+		console.log('ghost');
+		if (powerdot.ghosteat) {
+			score++;
+		} else {
+			gscore++;
+		}
+		player.x = 10;
+		player.y = 100;
+		enemy2.x = 300;
+		enemy2.y = 200;
+		powerdot.pcountdown = 0;
+	}
 
 	//Collision detection powerup
 	if (player.x <= powerdot.x && powerdot.x <= (player.x + 32) && player.y <= powerdot.y &&
 		powerdot.y <= (player.y + 32)) {
 		console.log('hit');
 		powerdot.powerup = false;
-		powerdot.pcountdown = 500;
+		powerdot.pcountdown = 800;
 		powerdot.ghostNum = enemy.ghostNum;
+		powerdot.ghostNum2 = enemy2.ghostNum;
 		enemy.ghostNum = 384;
+		enemy2.ghostNum = 384;
 		powerdot.x = 0;
 		powerdot.y = 0;
 		powerdot.ghosteat = true;
-		player.speed = 10;
+		player.speed = 12;
 }
 	if (powerdot.ghosteat) {
 		powerdot.pcountdown--;
@@ -203,10 +271,10 @@ function render() {
 
 	if(powerdot.ghosteat) {
 		powerdot.pcountdown--;
-		if(powerdot.pcountdown<=0) {
+		if(powerdot.pcountdown <= 0) {
 			powerdot.ghosteat=false;
 			enemy.ghostNum = powerdot.ghostNum;
-			
+			enemy2.ghostNum = powerdot.ghostNum2;
 		}
 }
 	if(powerdot.powerup){
@@ -218,21 +286,22 @@ function render() {
 	}
 
 	//enemy blinking
-	if(countblink>0) {
+	if(countblink > 0) {
 		countblink --;
 	} else {
 		countblink = 20;
 	}
 	if(enemy.flash == 0){
-		enemy.flash = 32;
+		enemy.flash = 32; enemy2.flash = 32;
 	} else {
-		enemy.flash = 0;
+		enemy.flash = 0; enemy2.flash = 0;
 	}
 
     context.font = '20px Verdana';
 	context.fillStyle = 'white';
 	context.fillText("Pacman: "+score+" vs Ghost:"+gscore,175,25);
-
+	// draw characters
+	context.drawImage(mainImage,enemy2.ghostNum,enemy2.flash,32,32,enemy2.x,enemy2.y,32,32);
 	context.drawImage(mainImage,enemy.ghostNum,enemy.flash,32,32,enemy.x,enemy.y,32,32);
 	context.drawImage(mainImage,player.pacmouth,player.pacdir,32,32,player.x,player.y,32,32);
 	
