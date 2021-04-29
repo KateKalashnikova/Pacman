@@ -19,8 +19,8 @@ var enemy = {
 }
 
 var enemy2 = {
-	x:150,
-	y:200,
+	x:250,
+	y:100,
 	speed:5,
 	moving:0,
 	dirx:0,
@@ -44,11 +44,12 @@ var score = 0,
 	ghost = false;
 	ghost2 = false;
 
-
+//setup canvas
 var canvas = document.createElement('canvas');
 var context = canvas.getContext("2d");
 canvas.height = 400;
 canvas.width = 600;
+//import image
 mainImage = new Image();
 mainImage.ready = false;
 mainImage.onload = checkReady;
@@ -63,7 +64,7 @@ document.addEventListener('keyup', function (event) {
 	delete keyclick[event.keyCode];
 	console.log(keyclick);
 }, false);
-
+//key gunctions
 function move(keyclick) {
 	if (37 in keyclick)
 		{player.x -= player.speed;
@@ -111,7 +112,7 @@ function playGame() {
 function myNum(n) {
 	return Math.floor(Math.random()*n );
 }
-
+//draw on canvas
 function render() {
 	context.fillStyle = 'black';
 	context.fillRect(0,0,canvas.width, canvas.height);
@@ -134,6 +135,7 @@ function render() {
 		enemy2.y = myNum(250) + 30;
 		ghost2 = true;
 }
+	//move enemy
 	if (enemy.moving < 0) {
 		enemy.moving = (myNum(20) * 3) + myNum(1);
 		enemy.speed = myNum(2) + 1;
@@ -264,6 +266,7 @@ function render() {
 	if (powerdot.pcountdown <= 0) {
 		powerdot.ghosteat = false;
 		enemy.ghostNum = powerdot.ghostNum;
+		enemy2.ghostNum = powerdot.ghostNum2;
 			player.speed = 5;
 	}
 }
@@ -291,15 +294,17 @@ function render() {
 	} else {
 		countblink = 20;
 	}
-	if(enemy.flash == 0){
-		enemy.flash = 32; enemy2.flash = 32;
+	if(enemy.flash == 0 && enemy2.flash == 0){
+		enemy.flash = 32; 
+		enemy2.flash = 32;
 	} else {
-		enemy.flash = 0; enemy2.flash = 0;
+		enemy.flash = 0; 
+		enemy2.flash = 0;
 	}
 
     context.font = '20px Verdana';
 	context.fillStyle = 'white';
-	context.fillText("Pacman: "+score+" vs Ghost:"+gscore,175,25);
+	context.fillText("Pacman:"+score+" vs Ghosts:"+gscore,175,25);
 	// draw characters
 	context.drawImage(mainImage,enemy2.ghostNum,enemy2.flash,32,32,enemy2.x,enemy2.y,32,32);
 	context.drawImage(mainImage,enemy.ghostNum,enemy.flash,32,32,enemy.x,enemy.y,32,32);
